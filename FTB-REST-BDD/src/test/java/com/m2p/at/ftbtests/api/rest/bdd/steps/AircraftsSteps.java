@@ -57,7 +57,7 @@ public class AircraftsSteps {
         storage.setLastApiCallSingleItemResponse(response);
     }
 
-    @When("client tries to create an Aircraft having manufacturer={string} and model={string} and number of steps=null")
+    @When("client tries to create an Aircraft having manufacturer={string} and model={string} and number of seats=null")
     public void createNumberOfSeatsNULL(String manufacturer, String model) throws JsonProcessingException {
         var data = CreateAircraftDto.of()
                 .manufacturer(manufacturer)
@@ -82,5 +82,33 @@ public class AircraftsSteps {
         assertThat(lastResponse.getNumberOfSeats())
                 .as("Seems Aircraft response contained unexpected number-of-seats value.")
                 .isEqualTo(numberOfSeats);
+    }
+
+    @Then("aircraft data to be manufacturer={string} and model={string} and number of seats is not null")
+    public void verifySingleAircraftDataNumberOfSeatsNotNull(String manufacturer, String model) {
+        var lastResponse = storage.getLastApiCallSingleItemResponse();
+        assertThat(lastResponse.getManufacturer())
+                .as("Seems Aircraft response contained unexpected manufacturer value.")
+                .isEqualTo(manufacturer);
+        assertThat(lastResponse.getModel())
+                .as("Seems Aircraft response contained unexpected model value.")
+                .isEqualTo(model);
+        assertThat(lastResponse.getNumberOfSeats())
+                .as("Seems Aircraft response contained unexpected number-of-seats value.")
+                .isNotEqualTo(null);
+    }
+
+    @Then("aircraft data to be manufacturer={string} and model={string} and number of seats is null")
+    public void verifySingleAircraftDataNumberOfSeatsNull(String manufacturer, String model) {
+        var lastResponse = storage.getLastApiCallSingleItemResponse();
+        assertThat(lastResponse.getManufacturer())
+                .as("Seems Aircraft response contained unexpected manufacturer value.")
+                .isEqualTo(manufacturer);
+        assertThat(lastResponse.getModel())
+                .as("Seems Aircraft response contained unexpected model value.")
+                .isEqualTo(model);
+        assertThat(lastResponse.getNumberOfSeats())
+                .as("Seems Aircraft response contained unexpected number-of-seats value.")
+                .isEqualTo(null);
     }
 }

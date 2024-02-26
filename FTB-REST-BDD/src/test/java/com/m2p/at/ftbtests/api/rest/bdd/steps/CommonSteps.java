@@ -13,6 +13,7 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.basic;
 import static io.restassured.RestAssured.given;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * A step-definition container to contain common steps like "check health" etc

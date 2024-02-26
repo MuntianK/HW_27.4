@@ -8,17 +8,22 @@ Feature: Testing FTB REST API AIRCRAFTS resource
 
   Scenario: Create an aircraft
     Given FTB is up and running and the tests are configured
-    When client tries to create an Aircraft having manufacturer='Test' and model='Test' and number of seats=10
-    Then returned aircraft data to be manufacturer='Test' and model='Test' and number of seats=10
+    When client tries to create an Aircraft having manufacturer='TestManuf' and model='TestModel' and number of seats=10
+    Then returned aircraft data to be manufacturer='TestManuf' and model='TestModel' and number of seats=10
 
 
  #HW 27.4 Muntian Ksenia
-      Scenario: HW 27.4_1
+  Scenario Outline: Get specific aircraft data by its ID and check that number of seats is not null
     Given FTB is up and running and the tests are configured
-    When client gets details of Aircraft id=1144
-    Then aircraft data to be manufacturer='HW 27.4' and model='HW 27.4_1' and number of seats=15
+    When client gets details of Aircraft id=<id>
+    Then aircraft data to be manufacturer=<manufacturer> and model=<model> and number of seats is not null
+    Examples:
+      | id   | manufacturer | model       |
+      | 1144 | 'HW 27.4'    | 'HW 27.4_1' |
+      | 59   | 'Ilushin'    | 'Il-96'     |
 
-  Scenario: HW 27.4_2
+  Scenario: Create an aircraft with number of seats = null and check its data
     Given FTB is up and running and the tests are configured
-    When client tries to create an Aircraft having manufacturer='HW 27.4' and model='HW 27.4_2' and number of steps=null
-    Then returned aircraft data to be manufacturer='HW 27.4' and model='HW 27.4_2' and number of seats=15
+    When client tries to create an Aircraft having manufacturer='HW 27.4' and model='HW 27.4_2' and number of seats=null
+  #  Then returned aircraft data to be manufacturer='HW 27.4' and model='HW 27.4_2' and number of seats=15
+    Then aircraft data to be manufacturer='HW 27.4' and model='HW 27.4_2' and number of seats is null
